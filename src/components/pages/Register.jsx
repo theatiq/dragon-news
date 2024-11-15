@@ -1,13 +1,19 @@
-import React, { useContext, useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../provider/AuthProvider";
 
 const Register = () => {
-  const { createNewUser, setUser } = useContext(AuthContext);
+  const { createNewUser, setUser, updateUserProfile } = useContext(AuthContext);
+  const [error, setError] = useState({});
+  const navigate = useNavigate();
   const handleSubmit = (e) => {
     e.preventDefault();
     const form = new FormData(e.target);
     const name = form.get("name");
+    if (name.length < 5) {
+      setError({ ...error, name: "must be more than 5" });
+      return;
+    }
     const email = form.get("email");
     const photo = form.get("photo");
     const password = form.get("password");
@@ -16,7 +22,13 @@ const Register = () => {
       .then((result) => {
         const user = result.user;
         setUser(user);
-        console.log(user);
+        updateUserProfile({ displayName: name, photoURL: photo })
+          .then(() => {
+            navigate("/");
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -44,6 +56,10 @@ const Register = () => {
               required
             />
           </div>
+
+          {error.name && (
+            <label className="label text-xs text-red-500">{error.name}</label>
+          )}
 
           <div className="form-control">
             <label className="label">

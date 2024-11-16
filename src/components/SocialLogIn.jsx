@@ -5,15 +5,10 @@ import { AuthContext } from "../provider/AuthProvider";
 const SocialLogIn = () => {
   const { createUserGoogle, setGoogleUser, setUser } = useContext(AuthContext);
   const handleGoogleLogin = () => {
-    createUserGoogle()
-      .then((result) => {
-        const user = result.user;
-        console.log(user);
-        setUser(user);
-      })
-      .catch((error) => {
-        console.log("Error: ", error.message);
-      });
+    createUserGoogle().then((result) => {
+      const user = result.user;
+      setUser(user);
+    });
   };
   return (
     <div>

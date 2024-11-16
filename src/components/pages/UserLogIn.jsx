@@ -11,11 +11,9 @@ const UserLogIn = () => {
     e.preventDefault();
     const email = e.target.email.value;
     const password = e.target.password.value;
-    console.log(email, password);
     signIn(email, password)
       .then((result) => {
         const user = result.user;
-        console.log(user);
         setUser(user);
         navigate(location?.state ? location.state : "/");
       })

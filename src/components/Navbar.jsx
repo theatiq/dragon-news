@@ -4,7 +4,7 @@ import userIcon from "../assets/user.png";
 import { AuthContext } from "../provider/AuthProvider";
 
 const Navbar = () => {
-  const { user, logOut } = useContext(AuthContext);
+  const { user, logOut, googleUser } = useContext(AuthContext);
   return (
     <div className="flex justify-between items-center">
       <div>{user && user.email}</div>
@@ -18,7 +18,7 @@ const Navbar = () => {
           {user && user?.email ? (
             <div>
               <img className="w-10 rounded-full" src={user?.photoURL} alt="" />
-              <p>{user?.displayName}</p>
+              {/* <p>{user?.displayName}</p> */}
             </div>
           ) : (
             <img src={userIcon} alt="" />
